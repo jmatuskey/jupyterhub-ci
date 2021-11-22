@@ -21,11 +21,11 @@ registry: gcr.io/datadoghq
 datadog:
   # datadog.apiKey -- Your Datadog API key
   # ref: https://app.datadoghq.com/account/settings#agent/kubernetes
-  apiKey: <DATADOG_API_KEY>
+  apiKey: # <DATADOG_API_KEY>
 
   # datadog.apiKeyExistingSecret -- Use existing Secret which stores API key instead of creating a new one
   ## If set, this parameter takes precedence over "apiKey".
-  apiKeyExistingSecret: {{ datadog_api_key_id }}
+  apiKeyExistingSecret: # <DATADOG_API_KEY_EXISTING_SECRET> 
 
   # datadog.appKey -- Datadog APP key required to use metricsProvider
   ## If you are using clusterAgent.metricsProvider.enabled = true, you must set
@@ -129,7 +129,7 @@ datadog:
   ## Learn more about tagging: https://docs.datadoghq.com/tagging/
   tags:
     - env: {{ env }}
-    - service: {{ cluster }}-sp
+    - service: {{ cluster_name }}-sp
     - infra_type: cloud
 
   # datadog.checksCardinality -- Sets the tag cardinality for the checks run by the Agent.

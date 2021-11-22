@@ -1,7 +1,8 @@
 ---
 
 - user: ec2-user
-
+  hosts: all
+  connection: local
   tasks:
 
     # print diff of latest values and our values
@@ -14,8 +15,13 @@
     
     # helm apply
 
+    - name: Get secret
+      command: get-datadog-api-key
+      register: datadog_api_key
+
     - name: Helm deploy
-      shell: helm install datadog --values /home/ec2-user/datadog_values.yml
+      # shell: helm upgrade --install datadog datadog/datadog -f /home/ec2-user/datadog_values.yml --set datadog.apiKey={{ lookup('amazon.aws.aws_secret', datadog_api_key_id, region='us-east-1', version_stage='AWSCURRENT') }} --create-namespace -n datadog
+      shell: helm upgrade --install datadog datadog/datadog -f /home/ec2-user/datadog_values.yml --set datadog.apiKey={{ datadog_api_key.stdout }} --create-namespace -n datadog
       args:
         chdir: /home/ec2-user/
 
