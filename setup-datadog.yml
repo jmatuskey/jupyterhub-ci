@@ -1,0 +1,21 @@
+---
+
+- user: ec2-user
+
+  tasks:
+
+    # print diff of latest values and our values
+
+
+    - name: Generate Config
+      template: 
+        src: group_vars/all/datadog_values.yml.j2
+        dest: /home/ec2-user/datadog_values.yml
+    
+    # helm apply
+
+    - name: Helm deploy
+      shell: helm install datadog --values /home/ec2-user/datadog_values.yml
+      args:
+        chdir: /home/ec2-user/
+
